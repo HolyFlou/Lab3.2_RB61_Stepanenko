@@ -1,111 +1,22 @@
- #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
 
+#include "funcs.h"
 
-// Визначення функції
-double f(double x);
-
-// Перша похідна: f'(x) = 3x^2 - 1
-double f_prime(double x);
-
-// Друга похідна: f''(x) = 6x
-double f_double_prime(double x);
-
-/* Запит користувачу при перевищенні кількості ітерацій
-   Повертає: 1 - продовжити (+max_iter), 2 - безліміт, 0 - вийти */
-int handle_max_iter_exceeded(int current_iter, double current_x);
-
-// Метод половинного ділення
-void solve_bisection(double a, double b, double eps, int max_iter, int debug);
-
-// Метод хорд
-void solve_chord(double a, double b, double eps, int max_iter, int debug);
-
-int main() {
-
-    double a = 1.0, b = 2.0;
-    double eps = 0.00001;
-    int max_iter = 10;
-    int choice;
-    int debug = 0;
-
-    while (1) {
-        printf("  f(x) = x^3 - x - 4 = 0 на [%.1f, %.1f]\n", a, b);
-        printf("1. Метод половинного ділення\n");
-        printf("2. Метод хорд\n");
-        printf("3. Порівняти обидва методи\n");
-        printf("4. Змінити параметри (a, b, eps, max_iter)\n");
-        if (debug == 1) {
-            printf("5. Переключити режим налагодження (зараз: УВІМКНЕНО)\n");
-        } else {
-            printf("5. Переключити режим налагодження (зараз: ВИМКНЕНО)\n");
-        }
-        printf("0. Вихід\n");
-        printf("Оберіть пункт: ");
-       
-        if (scanf("%d", &choice) != 1) break;
-
-        switch (choice) {
-            case 1:
-                solve_bisection(a, b, eps, max_iter, debug);
-                break;
-            case 2:
-                solve_chord(a, b, eps, max_iter, debug);
-                break;
-            case 3:
-                printf("\nВиконання методу половинного ділення");
-                solve_bisection(a, b, eps, max_iter, debug);
-                printf("\nВиконання методу хорд");
-                solve_chord(a, b, eps, max_iter, debug);
-                break;
-            case 4:
-                printf("Введіть a: ");
-                scanf("%lf", &a);
-                printf("Введіть b: ");
-                scanf("%lf", &b);
-                printf("Введіть точноcть eps (наприклад 0.00001): ");
-                scanf("%lf", &eps);
-                printf("Введіть max_iter: ");
-                scanf("%d", &max_iter);
-                break;
-            case 5:
-                if (debug == 0) {
-                    debug = 1;
-                    printf("Режим налагодження увімкнено.\n");
-                } else {
-                    debug = 0;
-                    printf("Режим налагодження вимкнено.\n");
-                }
-                break;
-            case 0:
-                printf("Завершення роботи програми.\n");
-                return 0;
-            default:
-                printf("Некоректний вибір. Спробуйте ще раз.\n");
-        }
-    }
-
-    return 0;
-}
-
-// Визначення функції
 double f(double x) {
     return pow(x, 3) - x - 4.0;
 }
-// Перша похідна: f'(x) = 3x^2 - 1
+
 double f_prime(double x) {
     return 3.0 * pow(x, 2) - 1.0;
 }
 
-// Друга похідна: f''(x) = 6x
 double f_double_prime(double x) {
     return 6.0 * x;
 }
 
-/* Запит користувачу при перевищенні кількості ітерацій
-   Повертає: 1 - продовжити (+max_iter), 2 - безліміт, 0 - вийти */
 int handle_max_iter_exceeded(int current_iter, double current_x) {
     int choice;
     printf("\nДосягнуто ліміт ітерацій (%d).\n", current_iter);
@@ -120,7 +31,6 @@ int handle_max_iter_exceeded(int current_iter, double current_x) {
     return choice;
 }
 
-// Метод половинного ділення
 void solve_bisection(double a, double b, double eps, int max_iter, int debug) {
     if (f(a) * f(b) >= 0) {
         printf("\nПомилка: f(a) та f(b) повинні мати різні знаки на кінцях відрізка!\n");
@@ -181,7 +91,6 @@ void solve_bisection(double a, double b, double eps, int max_iter, int debug) {
     printf("Затрачений час          = %.6f сек.\n", time_spent);
 }
 
-// Метод хорд
 void solve_chord(double a, double b, double eps, int max_iter, int debug) {
     if (f(a) * f(b) >= 0) {
         printf("\nПомилка: f(a) та f(b) повинні мати різні знаки на кінцях відрізка!\n");

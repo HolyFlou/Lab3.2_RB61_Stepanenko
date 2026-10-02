@@ -7,9 +7,10 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${workspaceFolder}/Source/*.c",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}/Source/main.exe",
+                "-I${workspaceFolder}/Header"
             ],
             "options": {
                 "cwd": "D:/mingw64/bin"
